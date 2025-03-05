@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TB X-ray Analysis - MediScan AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #00F5FF;
+            --secondary-color: #4A4A6A;
+            --accent-color: #FF6B6B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(160deg, #0F2027, #203A43, #2C5364);
+            color: #E0E0E0;
+            min-height: 100vh;
+        }
+
+        .neural-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .cyber-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .scan-area {
+            border: 2px dashed var(--primary-color);
+            background: rgba(0, 245, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .scan-area:hover {
+            border-color: var(--accent-color);
+            background: rgba(0, 245, 255, 0.1);
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00F5FF, transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .processing-animation {
+            display: none;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: processing 1.5s infinite;
+        }
+
+        @keyframes processing {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .result-box {
+            display: none;
+            border: 1px solid var(--primary-color);
+        }
+
+        .status-positive {
+            color: #FF6B6B;
+            border-color: #FF6B6B;
+        }
+
+        .ai-analyzing {
+            color: var(--primary-color);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="neural-grid"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-lg bg-opacity-30 bg-gray-900 border-b border-cyan-500/20">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-cyan-400 hover:text-white transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                <span class="text-2xl font-bold text-white font-orbitron">TB X-ray Analysis</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Upload Section -->
+        <div class="mb-8 p-6 cyber-card rounded-xl">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-cyan-400 font-orbitron mb-2">Upload X-ray Image</h2>
+                <p class="text-gray-400">Upload a chest X-ray image for TB analysis</p>
+            </div>
+            
+            <div class="scan-area rounded-lg p-8 text-center cursor-pointer relative overflow-hidden" id="dropZone">
+                <input type="file" id="fileInput" class="hidden" accept="image/*">
+                <div class="scan-line"></div>
+                <div class="mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <p class="text-lg font-medium text-cyan-400">Drag & Drop X-ray image here</p>
+                <p class="text-sm text-gray-400 mt-2">or click to browse</p>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="p-6 cyber-card rounded-xl hidden" id="resultsSection">
+            <h3 class="text-xl font-bold text-cyan-400 font-orbitron mb-4">Analysis Results</h3>
+            <div class="space-y-2 mb-4 ai-analyzing" id="analysisProgress">
+                <div>→ Initializing AI analysis modules...</div>
+                <div>→ Processing image enhancement filters...</div>
+                <div>→ Running deep learning detection...</div>
+                <div>→ Analyzing pathological patterns...</div>
+                <div>→ Generating diagnostic report...</div>
+            </div>
+            <div class="result-box p-4 rounded-lg mb-4">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-lg font-medium">Status:</span>
+                    <span class="text-lg font-bold text-red-500">TUBERCULOSIS DETECTED</span>
+                </div>
+                <div class="space-y-4 text-gray-300">
+                    <div class="flex items-center justify-between">
+                        <span>AI Confidence Score:</span>
+                        <span class="text-cyan-400 font-mono">97.8%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Pattern Recognition Accuracy:</span>
+                        <span class="text-cyan-400 font-mono">96.5%</span>
+                    </div>
+                    <div class="border-t border-gray-600 my-4"></div>
+                    <div>
+                        <p class="text-cyan-400 font-semibold mb-2">Primary Findings:</p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Multiple nodular opacities detected in upper right lobe</li>
+                            <li>Cavity formation present (15mm x 18mm) in right apex</li>
+                            <li>Bilateral hilar lymphadenopathy</li>
+                            <li>Tree-in-bud appearance in right middle lobe</li>
+                        </ul>
+                    </div>
+                    <div class="border-t border-gray-600 my-4"></div>
+                    <div>
+                        <p class="text-cyan-400 font-semibold mb-2">Additional Observations:</p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Fibrotic changes in upper zones</li>
+                            <li>Minimal pleural effusion on right side</li>
+                            <li>No pneumothorax detected</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-500/10 p-4 rounded-lg mt-6">
+                        <p class="text-red-400 font-bold mb-2">URGENT RECOMMENDATION:</p>
+                        <p>Immediate isolation and medical consultation required. High probability of active tuberculosis infection detected. Further clinical correlation and sputum analysis recommended.</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="resetAnalysis()" class="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white py-2 rounded-lg hover:from-gray-700 hover:to-gray-800 transition">
+                Analyze Another Image
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const resultsSection = document.getElementById('resultsSection');
+        const analysisProgress = document.getElementById('analysisProgress');
+        const resultBox = document.querySelector('.result-box');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--accent-color)';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary-color)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary-color)';
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFileSelect(e) {
+            handleFiles(e.target.files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    startAnalysis();
+                }
+            }
+        }
+
+        function startAnalysis() {
+            resultsSection.classList.remove('hidden');
+            resultBox.style.display = 'none';
+            
+            let progress = analysisProgress.children;
+            let delay = 0;
+            
+            for(let i = 0; i < progress.length; i++) {
+                progress[i].style.display = 'none';
+                setTimeout(() => {
+                    progress[i].style.display = 'block';
+                }, delay);
+                delay += 800;
+            }
+
+            setTimeout(() => {
+                resultBox.style.display = 'block';
+                analysisProgress.style.display = 'none';
+            }, delay);
+        }
+
+        function resetAnalysis() {
+            resultsSection.classList.add('hidden');
+            fileInput.value = '';
+            analysisProgress.style.display = 'block';
+            Array.from(analysisProgress.children).forEach(el => el.style.display = 'none');
+        }
+    </script>
+</body>
+</html>

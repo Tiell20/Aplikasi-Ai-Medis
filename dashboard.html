@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediScan AI - Medical Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #00F5FF;
+            --secondary-color: #4A4A6A;
+            --accent-color: #FF6B6B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(160deg, #0F2027, #203A43, #2C5364);
+            color: #E0E0E0;
+            min-height: 100vh;
+        }
+
+        .neural-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .cyber-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+            border-color: rgba(0, 245, 255, 0.3);
+        }
+
+        .diagnostic-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00F5FF;
+            box-shadow: 0 0 10px #00F5FF;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .glitch-text {
+            text-shadow: 
+                0.05em 0 0 #00F5FF,
+                -0.03em -0.04em 0 #FF6B6B,
+                0.025em 0.04em 0 #4A4A6A;
+            animation: glitch 725ms infinite;
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00F5FF, transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="neural-grid"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-lg bg-opacity-30 bg-gray-900 border-b border-cyan-500/20">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold text-white font-orbitron glitch-text">MediScan Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="status-indicator"></div>
+                        <span class="text-cyan-400 font-mono">SYSTEM ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Status Overview -->
+        <div class="mb-12 p-6 cyber-card rounded-xl">
+            <div class="grid grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-cyan-400">99.9%</div>
+                    <div class="text-gray-400">System Accuracy</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-cyan-400">0.2ms</div>
+                    <div class="text-gray-400">Response Time</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-cyan-400">24/7</div>
+                    <div class="text-gray-400">Availability</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-cyan-400">5,234</div>
+                    <div class="text-gray-400">Scans Today</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diagnostic Options -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- TB X-ray -->
+            <div class="cyber-card rounded-xl p-6 relative overflow-hidden">
+                <div class="scan-line"></div>
+                <div class="diagnostic-icon">🫁</div>
+                <h3 class="text-xl font-bold mb-2 font-orbitron">TB X-ray Analysis</h3>
+                <p class="text-gray-400 mb-4">Advanced tuberculosis detection using deep learning analysis</p>
+                <a href="tb.html">
+                <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                    Start Scan
+                </button>
+                </a>
+            </div>
+
+            <!-- Brain Tumor -->
+            <div class="cyber-card rounded-xl p-6 relative overflow-hidden">
+                <div class="scan-line"></div>
+                <div class="diagnostic-icon">🧠</div>
+                <h3 class="text-xl font-bold mb-2 font-orbitron">Brain Tumor Detection</h3>
+                <p class="text-gray-400 mb-4">Neural network-powered brain tumor identification system</p>
+                <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                    Start Scan
+                </button>
+            </div>
+
+            <!-- Lung Cancer -->
+            <div class="cyber-card rounded-xl p-6 relative overflow-hidden">
+                <div class="scan-line"></div>
+                <div class="diagnostic-icon">🫀</div>
+                <h3 class="text-xl font-bold mb-2 font-orbitron">Lung Cancer Screening</h3>
+                <p class="text-gray-400 mb-4">High-precision lung cancer detection and analysis</p>
+                <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                    Start Scan
+                </button>
+            </div>
+
+            <!-- Breast Cancer -->
+            <div class="cyber-card rounded-xl p-6 relative overflow-hidden">
+                <div class="scan-line"></div>
+                <div class="diagnostic-icon">📊</div>
+                <h3 class="text-xl font-bold mb-2 font-orbitron">Breast Cancer Analysis</h3>
+                <p class="text-gray-400 mb-4">Advanced mammography analysis and early detection</p>
+                <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                    Start Scan
+                </button>
+            </div>
+
+            <!-- Bone Dislocation -->
+            <div class="cyber-card rounded-xl p-6 relative overflow-hidden">
+                <div class="scan-line"></div>
+                <div class="diagnostic-icon">🦴</div>
+                <h3 class="text-xl font-bold mb-2 font-orbitron">Bone Dislocation</h3>
+                <p class="text-gray-400 mb-4">Real-time bone dislocation detection and assessment</p>
+                <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                    Start Scan
+                </button>
+            </div>
+
+            <!-- Bone Fracture -->
+            <div class="cyber-card rounded-xl p-6 relative overflow-hidden">
+                <div class="scan-line"></div>
+                <div class="diagnostic-icon">💫</div>
+                <h3 class="text-xl font-bold mb-2 font-orbitron">Bone Fracture Analysis</h3>
+                <p class="text-gray-400 mb-4">Comprehensive fracture detection and classification</p>
+                <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 rounded-lg hover:from-cyan-600 hover:to-blue-600 transition">
+                    Start Scan
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add hover effect to cards
+        document.querySelectorAll('.cyber-card').forEach(card => {
+            card.addEventListener('mouseover', () => {
+                card.querySelector('.scan-line').style.animationDuration = '1s';
+            });
+            card.addEventListener('mouseout', () => {
+                card.querySelector('.scan-line').style.animationDuration = '2s';
+            });
+        });
+
+        // Neural grid interaction
+        document.addEventListener('mousemove', (e) => {
+            document.querySelector('.neural-grid').style.backgroundPosition = '${e.clientX / 50}px ${e.clientY / 50}px';
+        });
+    </script>
+</body>
+</html>
