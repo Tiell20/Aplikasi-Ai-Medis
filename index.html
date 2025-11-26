@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediScan AI - Revolutionizing Medical Diagnostics</title>
+    <title>TB X-ray Analysis - MediScan AI</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@300;400;700&display=swap');
 
@@ -20,7 +19,6 @@
             background: linear-gradient(160deg, #0F2027, #203A43, #2C5364);
             color: #E0E0E0;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .neural-grid {
@@ -46,63 +44,15 @@
             transition: all 0.3s ease;
         }
 
-        .cyber-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
-            border-color: rgba(0, 245, 255, 0.3);
+        .scan-area {
+            border: 2px dashed var(--primary-color);
+            background: rgba(0, 245, 255, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .glitch-text {
-            text-shadow: 
-                0.05em 0 0 #00F5FF,
-                -0.03em -0.04em 0 #FF6B6B,
-                0.025em 0.04em 0 #4A4A6A;
-            animation: glitch 725ms infinite;
-        }
-
-        @keyframes glitch {
-            0% {
-                text-shadow: 
-                    0.05em 0 0 #00F5FF,
-                    -0.03em -0.04em 0 #FF6B6B,
-                    0.025em 0.04em 0 #4A4A6A;
-            }
-            15% {
-                text-shadow: 
-                    0.05em 0 0 #FF6B6B,
-                    -0.03em -0.04em 0 #00F5FF,
-                    0.025em 0.04em 0 #4A4A6A;
-            }
-            16% {
-                text-shadow: 
-                    0.05em 0 0 #4A4A6A,
-                    -0.03em -0.04em 0 #00F5FF,
-                    0.025em 0.04em 0 #FF6B6B;
-            }
-            49% {
-                text-shadow: 
-                    0.05em 0 0 #4A4A6A,
-                    -0.03em -0.04em 0 #00F5FF,
-                    0.025em 0.04em 0 #FF6B6B;
-            }
-            50% {
-                text-shadow: 
-                    0.05em 0 0 #00F5FF,
-                    -0.03em -0.04em 0 #FF6B6B,
-                    0.025em 0.04em 0 #4A4A6A;
-            }
-            99% {
-                text-shadow: 
-                    0.05em 0 0 #00F5FF,
-                    -0.03em -0.04em 0 #FF6B6B,
-                    0.025em 0.04em 0 #4A4A6A;
-            }
-            100% {
-                text-shadow: 
-                    0.05em 0 0 #FF6B6B,
-                    -0.03em -0.04em 0 #4A4A6A,
-                    0.025em 0.04em 0 #00F5FF;
-            }
+        .scan-area:hover {
+            border-color: var(--accent-color);
+            background: rgba(0, 245, 255, 0.1);
         }
 
         .scan-line {
@@ -110,8 +60,7 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(to right, transparent, #00F5FF, transparent);
-            animation: scan 3s linear infinite;
-            opacity: 0.5;
+            animation: scan 2s linear infinite;
         }
 
         @keyframes scan {
@@ -119,115 +68,277 @@
             100% { top: 100%; }
         }
 
-        .pulse-animation {
-            animation: pulse 2s infinite;
+        .ai-analyzing {
+            color: var(--primary-color);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .neon-border {
-            border: 2px solid rgba(0, 245, 255, 0.3);
-            box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
+        /* Result Box Styling */
+        .result-box {
+            display: none;
+            border: 1px solid var(--primary-color);
+            transition: all 0.3s ease;
         }
     </style>
 </head>
 <body class="antialiased">
     <div class="neural-grid"></div>
 
-    <!-- Navigation -->
     <nav class="sticky top-0 z-50 backdrop-blur-lg bg-opacity-30 bg-gray-900 border-b border-cyan-500/20">
         <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                    </div>
-                    <span class="text-2xl font-bold text-white font-orbitron glitch-text">MediScan AI</span>
-                </div>
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-cyan-400 hover:text-white transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                <span class="text-2xl font-bold text-white font-orbitron">TB X-ray Analysis</span>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <main class="container mx-auto px-6 py-16">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <h1 class="text-5xl font-bold font-orbitron text-white leading-tight glitch-text">
-                    AI-Powered Medical Diagnostics
-                </h1>
-                <p class="text-xl text-gray-300 leading-relaxed">
-                    Revolutionizing healthcare with cutting-edge artificial intelligence. Instant, accurate medical image analysis that transforms patient care and clinical decision-making.
-                </p>
-                <div class="flex space-x-4">
-                    <a href="dashboard.html" class="w-full md:w-auto">
-                        <button class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-lg hover:from-cyan-600 hover:to-blue-600 transition duration-300 transform hover:scale-105 pulse-animation neon-border">
-                            Start MediScan
-                        </button>
-                    </a>
-                </div>
+    <main class="container mx-auto px-6 py-8">
+        <div class="mb-8 p-6 cyber-card rounded-xl">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-cyan-400 font-orbitron mb-2">Upload X-ray Image</h2>
+                <p class="text-gray-400">Upload a chest X-ray image for TB analysis</p>
             </div>
-            <div class="relative">
+            
+            <div class="scan-area rounded-lg p-8 text-center cursor-pointer relative overflow-hidden" id="dropZone">
+                <input type="file" id="fileInput" class="hidden" accept="image/*">
                 <div class="scan-line"></div>
-                <div class="cyber-card rounded-xl p-8 relative overflow-hidden">
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="text-center">
-                            <div class="text-4xl font-bold text-cyan-400">99.9%</div>
-                            <div class="text-gray-400">Diagnostic Accuracy</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-4xl font-bold text-cyan-400">0.2ms</div>
-                            <div class="text-gray-400">Response Time</div>
-                        </div>
-                    </div>
+                <div class="mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
                 </div>
+                <p class="text-lg font-medium text-cyan-400">Drag & Drop X-ray image here</p>
+                <p class="text-sm text-gray-400 mt-2">or click to browse</p>
             </div>
         </div>
 
-        <!-- Features Section -->
-        <section class="mt-24">
-            <h2 class="text-3xl font-bold text-center font-orbitron mb-12 text-white glitch-text">
-                Advanced Medical AI Capabilities
-            </h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="cyber-card p-6 rounded-xl relative overflow-hidden">
-                    <div class="scan-line"></div>
-                    <div class="text-5xl mb-4 text-cyan-400">🧠</div>
-                    <h3 class="text-xl font-bold mb-2 font-orbitron">Neural Network Analysis</h3>
-                    <p class="text-gray-400">
-                        Deep learning algorithms that process medical images with unprecedented precision and speed.
-                    </p>
-                </div>
-                <div class="cyber-card p-6 rounded-xl relative overflow-hidden">
-                    <div class="scan-line"></div>
-                    <div class="text-5xl mb-4 text-cyan-400">🔬</div>
-                    <h3 class="text-xl font-bold mb-2 font-orbitron">Multi-Diagnostic Scanning</h3>
-                    <p class="text-gray-400">
-                        Comprehensive scanning across multiple medical domains including oncology, neurology, and radiology.
-                    </p>
-                </div>
-                <div class="cyber-card p-6 rounded-xl relative overflow-hidden">
-                    <div class="scan-line"></div>
-                    <div class="text-5xl mb-4 text-cyan-400">⚡</div>
-                    <h3 class="text-xl font-bold mb-2 font-orbitron">Real-Time Processing</h3>
-                    <p class="text-gray-400">
-                        Instantaneous image analysis with millisecond-level response times and 99.9% accuracy.
-                    </p>
-                </div>
+        <div class="p-6 cyber-card rounded-xl hidden" id="resultsSection">
+            <h3 class="text-xl font-bold text-cyan-400 font-orbitron mb-4">Analysis Results</h3>
+            
+            <div class="space-y-2 mb-4 ai-analyzing" id="analysisProgress">
+                <div>→ Initializing AI analysis modules...</div>
+                <div>→ Processing image enhancement filters...</div>
+                <div>→ Running deep learning detection...</div>
+                <div>→ Analyzing pathological patterns...</div>
+                <div>→ Generating diagnostic report...</div>
             </div>
-        </section>
+
+            <div id="dynamicResultContent" class="result-box p-4 rounded-lg mb-4">
+                </div>
+
+            <button onclick="resetAnalysis()" class="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white py-2 rounded-lg hover:from-gray-700 hover:to-gray-800 transition">
+                Analyze Another Image
+            </button>
+        </div>
     </main>
 
     <script>
-        // Neural grid interaction
-        document.addEventListener('mousemove', (e) => {
-            document.querySelector('.neural-grid').style.backgroundPosition = `${e.clientX / 50}px ${e.clientY / 50}px`;
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const resultsSection = document.getElementById('resultsSection');
+        const analysisProgress = document.getElementById('analysisProgress');
+        const resultBox = document.getElementById('dynamicResultContent');
+
+        // Counter untuk melacak urutan klik
+        let analysisCounter = 0;
+
+        // Event Listeners
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--accent-color)';
         });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary-color)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary-color)';
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFileSelect(e) {
+            handleFiles(e.target.files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    startAnalysis();
+                }
+            }
+        }
+
+        function startAnalysis() {
+            resultsSection.classList.remove('hidden');
+            resultBox.style.display = 'none';
+            analysisProgress.style.display = 'block';
+            
+            // Efek Loading Baris per Baris
+            let progress = analysisProgress.children;
+            let delay = 0;
+            
+            for(let i = 0; i < progress.length; i++) {
+                progress[i].style.display = 'none';
+                setTimeout(() => {
+                    progress[i].style.display = 'block';
+                }, delay);
+                delay += 500; // Kecepatan loading
+            }
+
+            // Tampilkan hasil setelah loading selesai
+            setTimeout(() => {
+                analysisProgress.style.display = 'none';
+                resultBox.style.display = 'block';
+                generateDynamicResult();
+                analysisCounter++; // Naikkan counter untuk klik berikutnya
+            }, delay + 500);
+        }
+
+        function generateDynamicResult() {
+            // Logika Modulo 4 Langkah
+            const step = analysisCounter % 4;
+            let htmlContent = '';
+            let borderColor = '';
+
+            if (step === 0) {
+                // HASIL 1: CRITICAL (TBC POSITIF)
+                borderColor = '#FF6B6B'; // Merah
+                htmlContent = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-lg font-medium">Status:</span>
+                        <span class="text-lg font-bold text-red-500">TUBERCULOSIS DETECTED</span>
+                    </div>
+                    <div class="space-y-4 text-gray-300">
+                        <div class="flex items-center justify-between">
+                            <span>AI Confidence Score:</span>
+                            <span class="text-red-400 font-mono">97.8%</span>
+                        </div>
+                        <div class="border-t border-gray-600 my-4"></div>
+                        <div>
+                            <p class="text-red-400 font-semibold mb-2">Pathological Findings:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>Cavity formation present (15mm) in right apex</li>
+                                <li>Bilateral hilar lymphadenopathy detected</li>
+                                <li>Tree-in-bud appearance visible</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-500/10 p-4 rounded-lg mt-6 border border-red-500/30">
+                            <p class="text-red-400 font-bold mb-2">CRITICAL ALERT:</p>
+                            <p>Active infection highly probable. Immediate isolation and sputum test required.</p>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (step === 1) {
+                // HASIL 2: WARNING (PNEUMONIA / BEDA DIAGNOSA)
+                borderColor = '#F59E0B'; // Kuning/Orange
+                htmlContent = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-lg font-medium">Status:</span>
+                        <span class="text-lg font-bold text-yellow-500">PNEUMONIA INDICATED</span>
+                    </div>
+                    <div class="space-y-4 text-gray-300">
+                        <div class="flex items-center justify-between">
+                            <span>AI Confidence Score:</span>
+                            <span class="text-yellow-400 font-mono">88.4%</span>
+                        </div>
+                        <div class="border-t border-gray-600 my-4"></div>
+                        <div>
+                            <p class="text-yellow-400 font-semibold mb-2">Clinical Observations:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>Lobar consolidation in lower left zone</li>
+                                <li>Air bronchograms visible</li>
+                                <li>No clear evidence of cavitation</li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-500/10 p-4 rounded-lg mt-6 border border-yellow-500/30">
+                            <p class="text-yellow-400 font-bold mb-2">RECOMMENDATION:</p>
+                            <p>Likely bacterial or viral pneumonia. Antibiotic therapy consideration suggested.</p>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (step === 2) {
+                // HASIL 3: AMAN (NORMAL)
+                borderColor = '#10B981'; // Hijau
+                htmlContent = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-lg font-medium">Status:</span>
+                        <span class="text-lg font-bold text-green-400">NORMAL / HEALTHY</span>
+                    </div>
+                    <div class="space-y-4 text-gray-300">
+                        <div class="flex items-center justify-between">
+                            <span>Health Score:</span>
+                            <span class="text-green-400 font-mono">99.2%</span>
+                        </div>
+                        <div class="border-t border-gray-600 my-4"></div>
+                        <div>
+                            <p class="text-green-400 font-semibold mb-2">Scan Analysis:</p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>Lung fields are clear</li>
+                                <li>Cardiac silhouette within normal limits</li>
+                                <li>Diaphragm contour is smooth</li>
+                                <li>No active infiltrate or effusion seen</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-500/10 p-4 rounded-lg mt-6 border border-green-500/30">
+                            <p class="text-green-400 font-bold mb-2">RESULT:</p>
+                            <p>No radiological abnormalities detected. Patient appears healthy.</p>
+                        </div>
+                    </div>
+                `;
+            } 
+            else {
+                // HASIL 4: ERROR / GAGAL
+                borderColor = '#6B7280'; // Abu-abu
+                htmlContent = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-lg font-medium">Status:</span>
+                        <span class="text-lg font-bold text-gray-400 glitch-text">SCAN ERROR</span>
+                    </div>
+                    <div class="space-y-4 text-gray-300">
+                        <div class="flex items-center justify-between">
+                            <span>Error Code:</span>
+                            <span class="text-gray-500 font-mono">ERR_IMG_0x404</span>
+                        </div>
+                        <div class="border-t border-gray-600 my-4"></div>
+                        <div class="text-center py-4">
+                            <div class="text-4xl mb-2">⚠</div>
+                            <p class="text-gray-400 font-mono">UNABLE TO PROCESS IMAGE</p>
+                        </div>
+                        <div class="bg-gray-700/30 p-4 rounded-lg mt-6 border border-gray-600">
+                            <p class="text-gray-300 font-bold mb-2">SYSTEM MESSAGE:</p>
+                            <p>Image quality too low or file corrupted. Significant artifacts prevented analysis. Please upload a clearer X-ray.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Update DOM
+            resultBox.innerHTML = htmlContent;
+            resultBox.style.borderColor = borderColor;
+            resultBox.style.boxShadow = `0 0 15px ${borderColor}40`; // Add glow effect based on color
+        }
+
+        function resetAnalysis() {
+            resultsSection.classList.add('hidden');
+            fileInput.value = '';
+            // Reset loading animation state
+            Array.from(analysisProgress.children).forEach(el => el.style.display = 'none');
+        }
     </script>
 </body>
 </html>
